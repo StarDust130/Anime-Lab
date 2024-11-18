@@ -15,7 +15,7 @@ function LoadMore() {
     const scrolledPercentage =
       (window.scrollY + window.innerHeight) / document.body.scrollHeight;
 
-    // If scrolled beyond 70%, fetch new data
+    // If scrolled beyond 50%, fetch new data
     if (scrolledPercentage > 0.5 && !loading) {
       fetchMoreData();
     }
@@ -38,7 +38,7 @@ function LoadMore() {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [loading]);
+  },);
 
   return (
     <div>
