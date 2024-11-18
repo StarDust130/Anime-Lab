@@ -1,31 +1,65 @@
 "use client";
+
+import { fetchAnime } from "@/app/action";
+import AnimeCard, { AnimeProp } from "./AnimeCard";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
+
+let page = 2;
 
 function LoadMore() {
-  const { ref, inView } = useInView();
+  const [data, setData] = useState<AnimeProp[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (inView) {
-      alert("Load More");
+  const handleScroll = () => {
+    const scrolledPercentage =
+      (window.scrollY + window.innerHeight) / document.body.scrollHeight;
+
+    // If scrolled beyond 70%, fetch new data
+    if (scrolledPercentage > 0.5 && !loading) {
+      fetchMoreData();
     }
-  }, [inView]);
+  };
+
+  const fetchMoreData = async () => {
+    setLoading(true); // Show spinner
+    try {
+      const newData = await fetchAnime(page);
+      setData((prev) => [...prev, ...newData]);
+      page++;
+    } catch (error) {
+      console.error("Failed to fetch more data:", error);
+    } finally {
+      setLoading(false); // Hide spinner
+    }
+  };
+
+  // Attach scroll listener
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loading]);
 
   return (
-    <>
-      <section className="flex justify-center items-center w-full">
-        <div ref={ref}>
+    <div>
+      <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
+        {data.map((item, index: number) => (
+          <AnimeCard key={`${item.id}-${index}`} anime={item} index={index} />
+        ))}
+      </section>
+
+      {loading && (
+        <div className="flex justify-center items-center mt-4">
           <Image
-            src="./spinner.svg"
-            alt="spinner"
+            src="/spinner.svg"
+            alt="Loading..."
             width={56}
             height={56}
             className="object-contain"
           />
         </div>
-      </section>
-    </>
+      )}
+    </div>
   );
 }
 
