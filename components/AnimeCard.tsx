@@ -22,7 +22,7 @@ function AnimeCard({ anime }: Prop) {
     <div className="max-w-sm rounded relative w-full">
       <div className="relative w-full h-[37vh]">
         <Image
-          src={anime.image.original}
+          src={`https://shikimori.one${anime?.image?.original}`}
           alt={anime.name}
           fill
           className="rounded-xl"
@@ -42,7 +42,7 @@ function AnimeCard({ anime }: Prop) {
         <div className="flex gap-4 items-center">
           <div className="flex flex-row gap-2 items-center">
             <Image
-              src={`https://shikimori.one/api/animes`}
+              src="./episodes.svg"
               alt="episodes"
               width={20}
               height={20}
