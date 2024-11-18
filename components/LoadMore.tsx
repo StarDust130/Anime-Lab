@@ -1,14 +1,15 @@
 "use client";
 
 import { fetchAnime } from "@/app/action";
-import AnimeCard, { AnimeProp } from "./AnimeCard";
+import AnimeCard from "./AnimeCard";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
 let page = 2;
+export type AnimeCard = JSX.Element;
 
 function LoadMore() {
-  const [data, setData] = useState<AnimeProp[]>([]);
+  const [data, setData] = useState<AnimeCard[]>([]);
   const [loading, setLoading] = useState(false);
 
   const handleScroll = () => {
@@ -38,14 +39,12 @@ function LoadMore() {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  },);
+  });
 
   return (
     <div>
       <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
-        {data.map((item, index: number) => (
-          <AnimeCard key={`${item.id}-${index}`} anime={item} index={index} />
-        ))}
+        {data}
       </section>
 
       {loading && (
