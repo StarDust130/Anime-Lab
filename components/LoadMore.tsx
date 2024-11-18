@@ -12,6 +12,7 @@ function LoadMore() {
   const [data, setData] = useState<AnimeCard[]>([]);
   const [loading, setLoading] = useState(false);
 
+  //! Handle scroll event 50% from the bottom
   const handleScroll = () => {
     const scrolledPercentage =
       (window.scrollY + window.innerHeight) / document.body.scrollHeight;
@@ -22,6 +23,7 @@ function LoadMore() {
     }
   };
 
+  //! Fetch more data
   const fetchMoreData = async () => {
     setLoading(true); // Show spinner
     try {
@@ -35,7 +37,7 @@ function LoadMore() {
     }
   };
 
-  // Attach scroll listener
+  //! Attach scroll listener
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
