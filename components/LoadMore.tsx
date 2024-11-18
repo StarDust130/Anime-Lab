@@ -1,10 +1,21 @@
+"use client";
 import Image from "next/image";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 function LoadMore() {
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView) {
+      alert("Load More");
+    }
+  }, [inView]);
+
   return (
     <>
       <section className="flex justify-center items-center w-full">
-        <div>
+        <div ref={ref}>
           <Image
             src="./spinner.svg"
             alt="spinner"
