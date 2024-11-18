@@ -42,7 +42,7 @@ function AnimeCard({ anime }: Prop) {
         <div className="flex gap-4 items-center">
           <div className="flex flex-row gap-2 items-center">
             <Image
-              src="./episodes.svg"
+              src={`https://shikimori.one/api/animes`}
               alt="episodes"
               width={20}
               height={20}
